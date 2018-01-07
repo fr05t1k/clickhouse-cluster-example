@@ -1,0 +1,69 @@
+version: '3'
+services:
+  ch1-01:
+    image: yandex/clickhouse-server
+    ports:
+      - '8121:8123'
+    volumes:
+      - './config/onfig.xml:/etc/clickhouse-server/conf.d/config.xml'
+      - './config/ch1-01.xml:/etc/clickhouse-server/conf.d/macros.xml'
+  ch1-02:
+    image: yandex/clickhouse-server
+    ports:
+      - '8122:8123'
+    volumes:
+      - './config/config.xml:/etc/clickhouse-server/conf.d/config.xml'
+      - './config/ch1-02.xml:/etc/clickhouse-server/conf.d/macros.xml'
+  ch2-01:
+    image: yandex/clickhouse-server
+    ports:
+      - '8123:8123'
+    volumes:
+      - './config/config.xml:/etc/clickhouse-server/conf.d/config.xml'
+      - './config/ch2-01.xml:/etc/clickhouse-server/conf.d/macros.xml'
+  ch2-02:
+    image: yandex/clickhouse-server
+    ports:
+      - '8124:8123'
+    volumes:
+      - './config/config.xml:/etc/clickhouse-server/conf.d/config.xml'
+      - './config/ch2-02.xml:/etc/clickhouse-server/conf.d/macros.xml'
+  client:
+    image: yandex/clickhouse-client
+  tabix:
+    image: spoonest/clickhouse-tabix-web-client
+    ports:
+      - '8080:80'
+  zoo1:
+    image: zookeeper
+    restart: always
+    hostname: zoo1
+    ports:
+      - '2181:2181'
+    environment:
+      ZOO_MY_ID: 1
+      ZOO_SERVERS: >-
+        server.1=0.0.0.0:2888:3888 server.2=zoo2:2888:3888
+        server.3=zoo3:2888:3888
+  zoo2:
+    image: zookeeper
+    restart: always
+    hostname: zoo2
+    ports:
+      - '2182:2181'
+    environment:
+      ZOO_MY_ID: 2
+      ZOO_SERVERS: >-
+        server.1=zoo1:2888:3888 server.2=0.0.0.0:2888:3888
+        server.3=zoo3:2888:3888
+  zoo3:
+    image: zookeeper
+    restart: always
+    hostname: zoo3
+    ports:
+      - '2183:2181'
+    environment:
+      ZOO_MY_ID: 3
+      ZOO_SERVERS: >-
+        server.1=zoo1:2888:3888 server.2=zoo2:2888:3888
+        server.3=0.0.0.0:2888:3888

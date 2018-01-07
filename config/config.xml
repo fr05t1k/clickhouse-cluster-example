@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<yandex>
+    <remote_servers>
+        <flights>
+            <shard>
+                <weight>1</weight>
+                <internal_replication>false</internal_replication>
+                <replica>
+                    <host>ch1-01</host>
+                    <port>9000</port>
+                </replica>
+                <replica>
+                    <host>ch1-02</host>
+                    <port>9000</port>
+                </replica>
+            </shard>
+            <shard>
+                <weight>1</weight>
+                <internal_replication>false</internal_replication>
+                <replica>
+                    <host>ch2-01</host>
+                    <port>9000</port>
+                </replica>
+                <replica>
+                    <host>ch2-02</host>
+                    <port>9000</port>
+                </replica>
+            </shard>
+        </flights>
+    </remote_servers>
+    <zookeeper>
+      <node index="1">
+          <host>zoo1</host>
+          <port>2181</port>
+      </node>
+      <node index="2">
+          <host>zoo2</host>
+          <port>2181</port>
+      </node>
+      <node index="3">
+          <host>zoo3</host>
+          <port>2181</port>
+      </node>
+    </zookeeper>
+</yandex>
